@@ -64,6 +64,8 @@ runs:
         release_branch: ${{ steps.setup_env_vars.outputs.release_branch }}
         archive_name: ${{ steps.setup_env_vars.outputs.archive_name }}
         module: ${{ steps.setup_env_vars.outputs.module }}
+        folder: ${{ steps.setup_env_vars.outputs.folder }}
+        module_name: ${{ steps.setup_env_vars.outputs.module_name }}
 
     - name: Atualizar Versão
       uses: Endems/workflows/update-version@teste
