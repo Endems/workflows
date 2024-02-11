@@ -13,15 +13,33 @@ runs:
     - name: 🚚 Checkout Project
       uses: actions/checkout@v3
 
-    - name: Update Version
-      run: |
-        git pull --rebase origin ${{ github.ref_name }}
+    - name: 📝 Pull project
+      run: git pull --rebase origin ${{ github.ref_name }}
+      shell: bash
 
+    - name: 📝 Show package.json
+      run: cat package.json
+      shell: bash
+
+    - name: Verificar versão
+     run: |
+        CURRENT_VERSION=$(jq -r '.version' package.json)
+        echo "Versão atual: $CURRENT_VERSION"
+        if [ "$CURRENT_VERSION" == "${{ inputs.version }}" ]; then
+          echo "Versão atual já é $CURRENT_VERSION. Nenhuma atualização necessária."
+          echo "skip_commit=true" >> $GITHUB_ENV
+        fi
+      shell: bash
+
+    - name: 📝 Update Version
+      if: env.skip_commit != 'true'
+      run: |
         echo "Atualizando versão para ${{ inputs.version }}"
         jq '.version = "${{ inputs.version }}"' package.json > temp.json && mv temp.json package.json
       shell: bash
 
     - name: Commit
+      if: env.skip_commit != 'true'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
