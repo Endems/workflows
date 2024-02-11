@@ -10,6 +10,9 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: 🚚 Checkout Project
+        uses: actions/checkout@v3
+
     - name: Update Version
       run: |
         echo "Atualizando versão para ${{ inputs.version }}"
