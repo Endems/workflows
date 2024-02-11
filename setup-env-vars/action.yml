@@ -62,7 +62,7 @@ runs:
         echo "A variável ARCHIVE_NAME foi criada: $ARCHIVE_NAME"
         echo "A variável RELEASE_BRANCH foi criada: $RELEASE_BRANCH"
         echo "A variável MODULE foi criada: $MODULE"
-        echo "A variável FOLDER foi criada: module-$MODULE"
+        echo "A variável FOLDER foi criada: $FOLDER"
         echo "A variável MODULE_NAME foi criada: $MODULE_NAME"
         
       shell: bash
