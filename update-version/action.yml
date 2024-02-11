@@ -22,7 +22,7 @@ runs:
       shell: bash
 
     - name: Verificar versão
-     run: |
+      run: |
         CURRENT_VERSION=$(jq -r '.version' package.json)
         echo "Versão atual: $CURRENT_VERSION"
         if [ "$CURRENT_VERSION" == "${{ inputs.version }}" ]; then
