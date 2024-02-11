@@ -17,6 +17,7 @@ runs:
       id: check_version
       run: |
         CURRENT_VERSION=$(jq -r '.version' package.json)
+        echo "Versão encontrada: $CURRENT_VERSION"
         if [ "$CURRENT_VERSION" == "${{ inputs.version }}" ]; then
           echo "Versão atual já é $CURRENT_VERSION. Nenhuma atualização necessária."
           echo "skip_commit=true" >> $GITHUB_ENV
