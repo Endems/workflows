@@ -19,6 +19,12 @@ inputs:
   module:
     description: 'Variável module'
     required: true
+  folder:
+    description: 'Variável folder'
+    required: true
+  module_name:
+    description: 'Variável module_name'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -49,6 +55,14 @@ runs:
           echo "Erro: A variável MODULE não foi definida corretamente."
           echo "Valor atual: $MODULE"
           exit 1
+        elif [ -z "$FOLDER" ]; then
+          echo "Erro: A variável FOLDER não foi definida corretamente."
+          echo "Valor atual: $FOLDER"
+          exit 1
+        elif [ -z "$MODULE_NAME" ]; then
+          echo "Erro: A variável MODULE_NAME não foi definida corretamente."
+          echo "Valor atual: $MODULE_NAME"
+          exit 1
         else
           echo "NOW: $NOW"
           echo "VERSION: $VERSION"
@@ -56,6 +70,8 @@ runs:
           echo "RELEASE_BRANCH: $RELEASE_BRANCH"
           echo "ARCHIVE_NAME: $ARCHIVE_NAME"
           echo "MODULE: $MODULE"
+          echo "FOLDER: $FOLDER"
+          echo "MODULE_NAME: $MODULE_NAME"
           echo "Variáveis de ambiente validadas com sucesso!"
         fi
       shell: bash

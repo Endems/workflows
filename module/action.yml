@@ -13,13 +13,31 @@ inputs:
     required: true
 
 outputs:
+  now:
+    description: 'Data e hora atual.'
+    value: ${{ steps.setup_env_vars.outputs.now }}
   version:
     description: 'A próxima versão do projeto.'
+    value: ${{ steps.get_and_check_version.outputs.version }}
   version_semantic:
     description: 'Versão semântica para ser apresentada.'
+    value: ${{ steps.setup_env_vars.outputs.version_semantic }}
   archive_name:
     description: 'Nome do arquivo de release.'
-
+    value: ${{ steps.setup_env_vars.outputs.archive_name }}
+  release_branch:
+    description: 'Branch de release para a qual a versão será incrementada.'
+    value: ${{ steps.setup_env_vars.outputs.release_branch }}
+  module:
+    description: 'Módulo a ser lançado.'
+    value: ${{ inputs.module }}
+  folder:
+    description: 'Pasta onde o release será lançado.'
+    value: ${{ steps.setup_env_vars.outputs.folder }}
+  module_name:
+    description: 'Nome do módulo em caixa alta.'
+    value: ${{ steps.setup_env_vars.outputs.module_name }}
+  
 runs:
   using: 'composite'
   steps:

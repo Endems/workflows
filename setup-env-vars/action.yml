@@ -29,6 +29,12 @@ outputs:
   module:
     description: 'Variable module'
     value: ${{ inputs.module }}
+  folder:
+    description: 'Variable folder'
+    value: ${{ steps.configure-env-vars.outputs.folder }}
+  module_name:
+    description: 'Variable module_name'
+    value: ${{ steps.configure-env-vars.outputs.module_name }}  
 runs:
   using: 'composite'
   steps:
@@ -43,6 +49,8 @@ runs:
         echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
         echo "now=$NOW" >> $GITHUB_OUTPUT
         echo "module={$MODULE}" >> $GITHUB_OUTPUT
+        echo "folder=module-{$MODULE}" >> $GITHUB_OUTPUT
+        echo "module_name={$MODULE^^}" >> $GITHUB_OUTPUT
 
         echo "version={$VERSION}" >> $GITHUB_OUTPUT
         echo "version_semantic=$VERSION_SEMANTIC" >> $GITHUB_OUTPUT
@@ -54,6 +62,8 @@ runs:
         echo "A variável ARCHIVE_NAME foi criada: $ARCHIVE_NAME"
         echo "A variável RELEASE_BRANCH foi criada: $RELEASE_BRANCH"
         echo "A variável MODULE foi criada: $MODULE"
+        echo "A variável FOLDER foi criada: module-$MODULE"
+        echo "A variável MODULE_NAME foi criada: $MODULE_NAME"
         
       shell: bash
       env:
