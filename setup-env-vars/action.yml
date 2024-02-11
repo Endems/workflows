@@ -36,9 +36,9 @@ runs:
       id: configure-env-vars
       run: |
         NOW=$(date +'%Y%m%d%H%M%S')
-        VERSION_SEMANTIC="v{$VERSION}"
+        VERSION_SEMANTIC="v$VERSION"
 
-        ARCHIVE_NAME="{$MODULE}-RELEASE-$VERSION_SEMANTIC-$NOW"
+        ARCHIVE_NAME="$MODULE-RELEASE-$VERSION_SEMANTIC-$NOW"
 
         echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
         echo "now=$NOW" >> $GITHUB_OUTPUT
