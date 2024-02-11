@@ -24,8 +24,7 @@ runs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        git fetch --all
-        git pull origin ${{ github.ref_name }}
+        git pull --rebase origin ${{ github.ref_name }}
         
         git add package.json
         git commit -m "RELEASE-${{ inputs.version_semantic }}"
