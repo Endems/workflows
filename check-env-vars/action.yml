@@ -82,3 +82,5 @@ runs:
         RELEASE_BRANCH: ${{ inputs.release_branch }}
         ARCHIVE_NAME: ${{ inputs.archive_name }}
         MODULE: ${{ inputs.module }}
+        FOLDER: ${{ inputs.folder }}
+        MODULE_NAME: ${{ inputs.module_name }}
