@@ -35,6 +35,9 @@ outputs:
   module_name:
     description: 'Variable module_name'
     value: ${{ steps.configure-env-vars.outputs.module_name }}  
+  branch_name:
+    description: 'Variable branch_name'
+    value: ${{ steps.configure-env-vars.outputs.branch_name }}
 runs:
   using: 'composite'
   steps:
@@ -57,7 +60,8 @@ runs:
         echo "version={$VERSION}" >> $GITHUB_OUTPUT
         echo "version_semantic=$VERSION_SEMANTIC" >> $GITHUB_OUTPUT
         echo "release_branch={$RELEASE_BRANCH}" >> $GITHUB_OUTPUT
-        echo "branch_name={$BRANCH_NAME}" >> $GITHUB_OUTPUT
+        echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
         echo "A variável NOW foi definida como: $NOW"
         echo "A variável VERSION foi criada: v$VERSION"
         echo "A variável VERSION_SEMANTIC foi criada: $VERSION_SEMANTIC"
@@ -66,6 +70,7 @@ runs:
         echo "A variável MODULE foi criada: $MODULE"
         echo "A variável FOLDER foi criada: $FOLDER"
         echo "A variável MODULE_NAME foi criada: $MODULE_NAME"
+        echo "A variável BRANCH_NAME foi criada: $BRANCH_NAME"
         
       shell: bash
       env:
