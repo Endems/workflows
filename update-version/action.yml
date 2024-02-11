@@ -13,17 +13,6 @@ runs:
     - name: 🚚 Checkout Project
       uses: actions/checkout@v3
 
-    - name: Verifica a versão atual
-      id: check_version
-      run: |
-        CURRENT_VERSION=$(jq -r '.version' package.json)
-        echo "Versão encontrada: $CURRENT_VERSION"
-        if [ "$CURRENT_VERSION" == "${{ inputs.version }}" ]; then
-          echo "Versão atual já é $CURRENT_VERSION. Nenhuma atualização necessária."
-          echo "skip_commit=true" >> $GITHUB_ENV
-        fi
-      shell: bash
-
     - name: Update Version
       if: env.skip_commit != 'true'
       run: |
@@ -36,10 +25,15 @@ runs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        
+        git fetch --all
+        git pull origin ${{ github.ref_name }}
+        
         git add package.json
-        git commit -m "RELEASE-$VERSION_SEMANTIC"
+        git commit -m "RELEASE-${{ inputs.version_semantic }}"
+        
         git push
-        echo "Versão atualizada para $VERSION"
+        echo "Versão atualizada para ${{ inputs.version }}"
       shell: bash
       env:
         VERSION: ${{ inputs.version }}
