@@ -11,6 +11,9 @@ inputs:
   actual_branch:
     description: 'Branch atual do repositório.'
     required: true
+  token:
+    description: 'Token de acesso para o repositório.'
+    required: true
 
 outputs:
   version:
@@ -57,7 +60,7 @@ runs:
       uses: actions/checkout@v2
       with:
         repository: Endems/flexsuite-app
-        token: ${{ secrets.ENDEMS_PAT }}
+        token: ${{ inputs.token }}
 
     - name: Clona submodulos
       run: |
