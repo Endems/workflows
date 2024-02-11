@@ -43,14 +43,16 @@ runs:
       run: |
         NOW=$(date +'%Y%m%d%H%M%S')
         VERSION_SEMANTIC="v$VERSION"
+        FOLDER="module-$MODULE"
+        MODULE_NAME=$(echo $MODULE | tr '[:lower:]' '[:upper:]')
 
         ARCHIVE_NAME="$MODULE-RELEASE-$VERSION_SEMANTIC-$NOW"
 
         echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
         echo "now=$NOW" >> $GITHUB_OUTPUT
-        echo "module={$MODULE}" >> $GITHUB_OUTPUT
-        echo "folder=module-{$MODULE}" >> $GITHUB_OUTPUT
-        echo "module_name={$MODULE^^}" >> $GITHUB_OUTPUT
+        echo "module=$MODULE" >> $GITHUB_OUTPUT
+        echo "folder=$FOLDER" >> $GITHUB_OUTPUT
+        echo "module_name=$MODULE_NAME" >> $GITHUB_OUTPUT
 
         echo "version={$VERSION}" >> $GITHUB_OUTPUT
         echo "version_semantic=$VERSION_SEMANTIC" >> $GITHUB_OUTPUT
