@@ -8,9 +8,6 @@ inputs:
   module:
     description: 'Módulo a ser lançado.'
     required: true
-  actual_branch:
-    description: 'Branch atual do repositório.'
-    required: true
 
 outputs:
   now:
@@ -37,7 +34,9 @@ outputs:
   module_name:
     description: 'Nome do módulo em caixa alta.'
     value: ${{ steps.setup_env_vars.outputs.module_name }}
-  
+  actual_branch:
+    description: 'Branch atual do repositório.'
+    value: ${{  }}
 runs:
   using: 'composite'
   steps:
@@ -66,6 +65,7 @@ runs:
         module: ${{ steps.setup_env_vars.outputs.module }}
         folder: ${{ steps.setup_env_vars.outputs.folder }}
         module_name: ${{ steps.setup_env_vars.outputs.module_name }}
+        branch_name: ${{ steps.setup_env_vars.outputs.branch_name }}
 
     - name: Atualizar Versão
       uses: Endems/workflows/update-version@teste

@@ -45,6 +45,7 @@ runs:
         VERSION_SEMANTIC="v$VERSION"
         FOLDER="module-$MODULE"
         MODULE_NAME=$(echo $MODULE | tr '[:lower:]' '[:upper:]')
+        BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})"
 
         ARCHIVE_NAME="$MODULE-RELEASE-$VERSION_SEMANTIC-$NOW"
 
@@ -53,11 +54,10 @@ runs:
         echo "module=$MODULE" >> $GITHUB_OUTPUT
         echo "folder=$FOLDER" >> $GITHUB_OUTPUT
         echo "module_name=$MODULE_NAME" >> $GITHUB_OUTPUT
-
         echo "version={$VERSION}" >> $GITHUB_OUTPUT
         echo "version_semantic=$VERSION_SEMANTIC" >> $GITHUB_OUTPUT
         echo "release_branch={$RELEASE_BRANCH}" >> $GITHUB_OUTPUT
-
+        echo "branch_name={$BRANCH_NAME}" >> $GITHUB_OUTPUT
         echo "A variável NOW foi definida como: $NOW"
         echo "A variável VERSION foi criada: v$VERSION"
         echo "A variável VERSION_SEMANTIC foi criada: $VERSION_SEMANTIC"

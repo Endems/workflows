@@ -25,6 +25,9 @@ inputs:
   module_name:
     description: 'Variável module_name'
     required: true
+  branch_name:
+    description: 'Variável branch_name'
+    required: true
 runs:
   using: 'composite'
   steps:
@@ -63,6 +66,10 @@ runs:
           echo "Erro: A variável MODULE_NAME não foi definida corretamente."
           echo "Valor atual: $MODULE_NAME"
           exit 1
+        elif [ -z "$BRANCH_NAME" ]; then
+          echo "Erro: A variável BRANCH_NAME não foi definida corretamente."
+          echo "Valor atual: $BRANCH_NAME"
+          exit 1
         else
           echo "NOW: $NOW"
           echo "VERSION: $VERSION"
@@ -72,6 +79,7 @@ runs:
           echo "MODULE: $MODULE"
           echo "FOLDER: $FOLDER"
           echo "MODULE_NAME: $MODULE_NAME"
+          echo "BRANCH_NAME: $BRANCH_NAME"
           echo "Variáveis de ambiente validadas com sucesso!"
         fi
       shell: bash
@@ -84,3 +92,4 @@ runs:
         MODULE: ${{ inputs.module }}
         FOLDER: ${{ inputs.folder }}
         MODULE_NAME: ${{ inputs.module_name }}
+        BRANCH_NAME: ${{ inputs.branch_name }}
