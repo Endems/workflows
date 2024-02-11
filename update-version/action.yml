@@ -12,7 +12,6 @@ runs:
   steps:
     - name: Update Version
       run: |
-        git pull
         echo "Atualizando versão para ${{ inputs.version }}"
         jq '.version = "${{ inputs.version }}"' package.json > temp.json && mv temp.json package.json
       shell: bash
