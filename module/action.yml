@@ -1,0 +1,51 @@
+name: '🚀 Processo Completo de Release do Módulo'
+description: 'Executa todos os passos necessários para o release de um módulo, incluindo obtenção da versão, configuração de variáveis de ambiente, validação e atualização de versão.'
+inputs:
+  release_branch:
+    description: 'Branch de release para a qual a versão será incrementada.'
+    required: false
+    default: 'main'
+  module:
+    description: 'Módulo a ser lançado.'
+    required: true
+
+outputs:
+  version:
+    description: 'A próxima versão do projeto.'
+  version_semantic:
+    description: 'Versão semântica para ser apresentada.'
+  archive_name:
+    description: 'Nome do arquivo de release.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Obter e Verificar Versão
+      id: get_and_check_version
+      uses: ./get-and-check-version
+      with:
+        release_branch: ${{ inputs.release_branch }}
+
+    - name: Configurar Variáveis de Ambiente
+      id: setup_env_vars
+      uses: ./setup-env-vars
+      with:
+        version: ${{ steps.get_and_check_version.outputs.version }}
+        release_branch: ${{ inputs.release_branch }}
+        module: ${{ inputs.module }}
+
+    - name: Validar Variáveis de Ambiente
+      uses: ./check-env-vars
+      with:
+        now: ${{ steps.setup_env_vars.outputs.now }}
+        version: ${{ steps.setup_env_vars.outputs.version }}
+        version_semantic: ${{ steps.setup_env_vars.outputs.version_semantic }}
+        release_branch: ${{ steps.setup_env_vars.outputs.release_branch }}
+        archive_name: ${{ steps.setup_env_vars.outputs.archive_name }}
+        module: ${{ steps.setup_env_vars.outputs.module }}
+
+    - name: Atualizar Versão
+      uses: ./update-version
+      with:
+        version: ${{ steps.setup_env_vars.outputs.version }}
+        version_semantic: ${{ steps.setup_env_vars.outputs.version_semantic }}

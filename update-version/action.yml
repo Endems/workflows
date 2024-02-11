@@ -1,0 +1,31 @@
+name: '🎛️ Atualizar Versão'
+description: 'Atualiza a versão no package.json e realiza um commit.'
+inputs:
+  version:
+    description: 'Nova versão para ser definida no package.json.'
+    required: true
+  version_semantic:
+    description: 'Versão semântica para ser apresentada.'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Update Version
+      run: |
+        echo "Atualizando versão para ${{ inputs.version }}"
+        cd web
+        jq '.version = "${{ inputs.version }}"' package.json > temp.json && mv temp.json package.json
+      shell: bash
+
+    - name: Commit
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add web/package.json
+        git commit -m "RELEASE-$VERSION_SEMANTIC"
+        git push
+        echo "Versão atualizada para $VERSION"
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        VERSION_SEMANTIC: ${{ inputs.version_semantic }}
