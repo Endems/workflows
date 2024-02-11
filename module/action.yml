@@ -8,6 +8,9 @@ inputs:
   module:
     description: 'Módulo a ser lançado.'
     required: true
+  actual_branch:
+    description: 'Branch atual do repositório.'
+    required: true
 
 outputs:
   version:
@@ -49,3 +52,25 @@ runs:
       with:
         version: ${{ steps.setup_env_vars.outputs.version }}
         version_semantic: ${{ steps.setup_env_vars.outputs.version_semantic }}
+
+    - name: Clonar App
+      uses: actions/checkout@v2
+      with:
+        repository: Endems/flexsuite-app
+        token: ${{ secrets.ENDEMS_PAT }}
+
+    - name: Clona submodulos
+      run: |
+        git submodule update --init --recursive
+      shell: bash
+
+    - name: Atualiza submodulos
+      run: |
+        git submodule update --remote
+      shell: bash 
+
+    - name: Builda projeto
+      run: |
+        npm install
+        npm run build
+      shell: bash
