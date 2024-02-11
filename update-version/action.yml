@@ -20,7 +20,7 @@ runs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add web/package.json
+        git add package.json
         git commit -m "RELEASE-$VERSION_SEMANTIC"
         git push
         echo "Versão atualizada para $VERSION"
