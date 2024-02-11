@@ -14,14 +14,12 @@ runs:
       uses: actions/checkout@v3
 
     - name: Update Version
-      if: env.skip_commit != 'true'
       run: |
         echo "Atualizando versão para ${{ inputs.version }}"
         jq '.version = "${{ inputs.version }}"' package.json > temp.json && mv temp.json package.json
       shell: bash
 
     - name: Commit
-      if: env.skip_commit != 'true'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
