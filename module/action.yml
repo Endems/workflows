@@ -34,9 +34,10 @@ outputs:
   module_name:
     description: 'Nome do módulo em caixa alta.'
     value: ${{ steps.setup_env_vars.outputs.module_name }}
-  actual_branch:
+  branch_name:
     description: 'Branch atual do repositório.'
     value: ${{ steps.setup_env_vars.outputs.branch_name }}
+  
 runs:
   using: 'composite'
   steps:
