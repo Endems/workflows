@@ -11,7 +11,7 @@ runs:
   using: 'composite'
   steps:
     - name: 🚚 Checkout Project
-        uses: actions/checkout@v3
+      uses: actions/checkout@v3
 
     - name: Update Version
       run: |
