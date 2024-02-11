@@ -13,7 +13,6 @@ runs:
     - name: Update Version
       run: |
         echo "Atualizando versão para ${{ inputs.version }}"
-        cd web
         jq '.version = "${{ inputs.version }}"' package.json > temp.json && mv temp.json package.json
       shell: bash
 
