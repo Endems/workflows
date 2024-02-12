@@ -7,9 +7,6 @@ inputs:
   release_branch:
     description: 'Branch to which the version will be incremented.'
     required: true
-  module:
-    description: 'Module to be released.'
-    required: true
 outputs:
   now:
     description: 'Variable now'
@@ -28,7 +25,7 @@ outputs:
     value: ${{ inputs.release_branch }}
   module:
     description: 'Variable module'
-    value: ${{ inputs.module }}
+    value: ${{ steps.configure-env-vars.outputs.module }}
   folder:
     description: 'Variable folder'
     value: ${{ steps.configure-env-vars.outputs.folder }}
@@ -41,6 +38,18 @@ outputs:
 runs:
   using: 'composite'
   steps:
+    - name: Obter Modulo pelo package.json
+      id: get-module
+      run: |
+        MODULE=$(jq -r '.name' package.json)
+        MODULE=$(echo $MODULE | sed 's/-module//g')
+        echo "module=$MODULE" >> $GITHUB_OUTPUT
+
+        echo "A variável MODULE foi definida como: $MODULE"
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        RELEASE_BRANCH: ${{ inputs.release_branch }}
     - name: Configure Environment Variables
       id: configure-env-vars
       run: |
@@ -76,5 +85,5 @@ runs:
       env:
         VERSION: ${{ inputs.version }}
         RELEASE_BRANCH: ${{ inputs.release_branch }}
-        MODULE: ${{ inputs.module }}
+        MODULE: ${{ steps.get-module.outputs.module }}
         
