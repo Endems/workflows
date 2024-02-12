@@ -13,10 +13,6 @@ runs:
     - name: 🚚 Checkout Project
       uses: actions/checkout@v3
 
-    - name: 📝 Pull project
-      run: git pull --rebase origin ${{ github.ref_name }}
-      shell: bash
-
     - name: 📝 Show package.json
       run: cat package.json
       shell: bash
@@ -29,6 +25,11 @@ runs:
           echo "Versão atual já é $CURRENT_VERSION. Nenhuma atualização necessária."
           echo "skip_commit=true" >> $GITHUB_ENV
         fi
+      shell: bash
+      
+    - name: 📝 Pull project
+      if: env.skip_commit != 'true'
+      run: git pull --rebase origin ${{ github.ref_name }}
       shell: bash
 
     - name: 📝 Update Version
