@@ -5,9 +5,6 @@ inputs:
     description: 'Branch de release para a qual a versão será incrementada.'
     required: false
     default: 'main'
-  module:
-    description: 'Módulo a ser lançado.'
-    required: true
 
 outputs:
   now:
@@ -27,7 +24,7 @@ outputs:
     value: ${{ steps.setup_env_vars.outputs.release_branch }}
   module:
     description: 'Módulo a ser lançado.'
-    value: ${{ inputs.module }}
+    value: ${{ steps.setup_env_vars.outputs.module }}
   folder:
     description: 'Pasta onde o release será lançado.'
     value: ${{ steps.setup_env_vars.outputs.folder }}
