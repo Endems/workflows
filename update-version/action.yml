@@ -13,7 +13,7 @@ runs:
     - name: 🚚 Checkout Project
       uses: actions/checkout@v3
 
-    -name: Exit
+    - name: Exit
       run: exit 1
       shell: bash
 
