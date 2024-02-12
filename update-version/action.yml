@@ -26,11 +26,6 @@ runs:
           echo "skip_commit=true" >> $GITHUB_ENV
         fi
       shell: bash
-      
-    - name: 📝 Pull project
-      if: env.skip_commit != 'true'
-      run: git pull --rebase origin ${{ github.ref_name }}
-      shell: bash
 
     - name: 📝 Update Version
       if: env.skip_commit != 'true'
