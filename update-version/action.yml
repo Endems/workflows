@@ -13,10 +13,6 @@ runs:
     - name: 🚚 Checkout Project
       uses: actions/checkout@v3
 
-    - name: Exit
-      run: exit 1
-      shell: bash
-
     - name: 📝 Show package.json
       run: cat package.json
       shell: bash
