@@ -75,6 +75,7 @@ runs:
         echo "A variável FOLDER foi criada: $FOLDER"
         echo "A variável MODULE_NAME foi criada: $MODULE_NAME"
         echo "A variável BRANCH_NAME foi criada: $BRANCH_NAME"
+        echo "A variável MODULE_DESCRIPTION foi criada: $(jq -r '.description' package.json)"
         
       shell: bash
       env:
