@@ -19,6 +19,7 @@ runs:
 
     - name: Verificar versão
       run: |
+        git pull
         CURRENT_VERSION=$(jq -r '.version' package.json)
         echo "Versão atual: $CURRENT_VERSION"
         if [ "$CURRENT_VERSION" == "${{ inputs.version }}" ]; then
