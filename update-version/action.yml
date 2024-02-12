@@ -10,19 +10,40 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Update Version
+    - name: 🚚 Checkout Project
+      uses: actions/checkout@v3
+
+    - name: 📝 Show package.json
+      run: cat package.json
+      shell: bash
+
+    - name: Verificar versão
+      run: |
+        git pull
+        CURRENT_VERSION=$(jq -r '.version' package.json)
+        echo "Versão atual: $CURRENT_VERSION"
+        if [ "$CURRENT_VERSION" == "${{ inputs.version }}" ]; then
+          echo "Versão atual já é $CURRENT_VERSION. Nenhuma atualização necessária."
+          echo "skip_commit=true" >> $GITHUB_ENV
+        fi
+      shell: bash
+
+    - name: 📝 Update Version
+      if: env.skip_commit != 'true'
       run: |
         echo "Atualizando versão para ${{ inputs.version }}"
-        cd web
         jq '.version = "${{ inputs.version }}"' package.json > temp.json && mv temp.json package.json
       shell: bash
 
     - name: Commit
+      if: env.skip_commit != 'true'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add web/package.json
+        
+        git add package.json
         git commit -m "RELEASE-$VERSION_SEMANTIC"
+        
         git push
         echo "Versão atualizada para $VERSION"
       shell: bash
