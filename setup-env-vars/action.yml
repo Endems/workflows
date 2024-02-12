@@ -35,21 +35,12 @@ outputs:
   branch_name:
     description: 'Variable branch_name'
     value: ${{ steps.configure-env-vars.outputs.branch_name }}
+  module_description:
+    description: 'Variable module_description'
+    value: ${{ steps.configure-env-vars.outputs.module_description }}
 runs:
   using: 'composite'
   steps:
-    - name: Obter Modulo pelo package.json
-      id: get-module
-      run: |
-        MODULE=$(jq -r '.name' package.json)
-        MODULE=$(echo $MODULE | sed 's/-module//g')
-        echo "module=$MODULE" >> $GITHUB_OUTPUT
-
-        echo "A variável MODULE foi definida como: $MODULE"
-      shell: bash
-      env:
-        VERSION: ${{ inputs.version }}
-        RELEASE_BRANCH: ${{ inputs.release_branch }}
     - name: Configure Environment Variables
       id: configure-env-vars
       run: |
@@ -59,6 +50,9 @@ runs:
         MODULE_NAME=$(echo $MODULE | tr '[:lower:]' '[:upper:]')
         BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})
 
+        MODULE=$(jq -r '.name' package.json)
+        MODULE=$(echo $MODULE | sed 's/module-//g')
+
         ARCHIVE_NAME="$MODULE_NAME-RELEASE-$VERSION_SEMANTIC-$NOW"
 
         echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
@@ -66,10 +60,11 @@ runs:
         echo "module=$MODULE" >> $GITHUB_OUTPUT
         echo "folder=$FOLDER" >> $GITHUB_OUTPUT
         echo "module_name=$MODULE_NAME" >> $GITHUB_OUTPUT
-        echo "version={$VERSION}" >> $GITHUB_OUTPUT
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "version_semantic=$VERSION_SEMANTIC" >> $GITHUB_OUTPUT
-        echo "release_branch={$RELEASE_BRANCH}" >> $GITHUB_OUTPUT
+        echo "release_branch=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
         echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+        echo "module_description=$(jq -r '.description' package.json)" >> $GITHUB_OUTPUT
 
         echo "A variável NOW foi definida como: $NOW"
         echo "A variável VERSION foi criada: v$VERSION"
@@ -85,5 +80,4 @@ runs:
       env:
         VERSION: ${{ inputs.version }}
         RELEASE_BRANCH: ${{ inputs.release_branch }}
-        MODULE: ${{ steps.get-module.outputs.module }}
         
